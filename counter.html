@@ -1,0 +1,59 @@
+<div style="text-align: center; font-family: sans-serif; margin-top: 50px; padding: 20px;">
+  <h1 style="color: #555;">Daily Goal: 50</h1>
+  
+  <div id="count" style="font-size: 120px; font-weight: bold; margin: 10px 0; color: #333;">0</div>
+  
+  <div style="width: 100%; background-color: #eee; border-radius: 20px; margin-bottom: 30px;">
+    <div id="bar" style="width: 0%; height: 20px; background-color: #4CAF50; border-radius: 20px; transition: width 0.3s;"></div>
+  </div>
+  
+  <button onclick="add()" style="width: 100%; max-width: 300px; padding: 30px; font-size: 32px; background-color: #4CAF50; color: white; border: none; border-radius: 15px; font-weight: bold; box-shadow: 0 4px #2e7d32; active: transform: translateY(4px);">
+    +10 DONE
+  </button>
+  
+  <br><br><br>
+  
+  <button onclick="reset()" style="background: none; border: none; color: #bbb; text-decoration: underline; font-size: 16px;">
+    Reset Day
+  </button>
+</div>
+
+<script>
+  let count = parseInt(localStorage.getItem('pushups')) || 0;
+  const goal = 50;
+  
+  function updateUI() {
+    const display = document.getElementById('count');
+    const bar = document.getElementById('bar');
+    
+    display.innerText = count;
+    
+    // Update Progress Bar
+    let percentage = (count / goal) * 100;
+    bar.style.width = Math.min(percentage, 100) + "%";
+    
+    // Change color when goal is reached
+    if (count >= goal) {
+      display.style.color = "#4CAF50";
+    } else {
+      display.style.color = "#333";
+    }
+    
+    localStorage.setItem('pushups', count);
+  }
+
+  function add() {
+    count += 10;
+    updateUI();
+  }
+
+  function reset() {
+    if(confirm("Reset progress?")) { 
+      count = 0; 
+      updateUI(); 
+    }
+  }
+
+  // Initial load
+  updateUI();
+</script>
